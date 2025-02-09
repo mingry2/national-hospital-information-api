@@ -45,7 +45,7 @@ public class SecurityConfig {
         // 경로별 인가
         http.authorizeHttpRequests((auth) -> auth
             .requestMatchers("/", "/api/v1/user/login", "/api/v1/user/join").permitAll()
-            .requestMatchers("/admin").hasRole("ADMIN")
+            .requestMatchers("/api/v1/data-upload").hasRole("ADMIN")
             .anyRequest().authenticated());
 
         http.addFilterBefore(new JwtFilter(jwtUtil), LoginFilter.class);

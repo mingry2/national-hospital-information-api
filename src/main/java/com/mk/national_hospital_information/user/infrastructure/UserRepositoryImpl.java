@@ -19,8 +19,7 @@ public class UserRepositoryImpl implements UserRepository {
     public User save(User user) {
 
         UserEntity userEntity = new UserEntity(user);
-        userEntity = userJpaRepository.save(userEntity);
-        return userEntity.toUser();
+        return userJpaRepository.save(userEntity).toUser();
     }
 
     @Override

@@ -12,6 +12,9 @@ public enum ErrorCode {
     DUPLICATED_USER_NAME(HttpStatus.CONFLICT, "DUPLICATED USERNAME"),
     ID_NOT_FOUND(HttpStatus.NOT_FOUND, "ID NOT FOUND"),
     USERNAME_NOT_FOUND(HttpStatus.NOT_FOUND, "USERNAME NOT FOUND"),
+
+    // hospital
+    HOSPITAL_NOT_FOUND(HttpStatus.NOT_FOUND, "HOSPITAL NOT FOUND"),
     ;
 
     private final HttpStatus status;
