@@ -47,8 +47,13 @@ public class HospitalEntity {
         this.website = website;
     }
 
+    // Entity -> Domain
     public Hospital toHospital() {
-        return new Hospital(this.id, this.hospitalName, this.address, this.tel, this.website);
+        return new Hospital(
+            this.id,
+            this.hospitalName,
+            this.address,
+            this.tel,
+            this.website);
     }
-
 }

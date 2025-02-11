@@ -1,10 +1,10 @@
 package com.mk.national_hospital_information.user.presentation;
 
 import com.mk.national_hospital_information.common.exception.Response;
+import com.mk.national_hospital_information.user.application.interfaces.UserService;
 import com.mk.national_hospital_information.user.presentation.dto.CheckUsernameResponseDto;
 import com.mk.national_hospital_information.user.presentation.dto.UserJoinRequestDto;
 import com.mk.national_hospital_information.user.presentation.dto.UserJoinResponseDto;
-import com.mk.national_hospital_information.user.application.UserService;
 import com.mk.national_hospital_information.user.domain.User;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -26,17 +26,19 @@ public class UserRestController {
     @PostMapping("/join")
     public ResponseEntity<Response<UserJoinResponseDto>> join(@RequestBody UserJoinRequestDto dto) {
         User joinedUser = userService.join(dto);
+        UserJoinResponseDto userJoinResponseDto = new UserJoinResponseDto(joinedUser.getId(), joinedUser.getUsername());
 
         return ResponseEntity
             .status(HttpStatus.OK)
-            .body(Response.success(new UserJoinResponseDto(joinedUser.getId(), joinedUser.getUsername())));
+            .body(Response.success(userJoinResponseDto));
     }
 
     @GetMapping("/check-username/{username}")
     public ResponseEntity<Response<CheckUsernameResponseDto>> checkUsername(@PathVariable String username) {
+        CheckUsernameResponseDto checkUsernameResponseDto = new CheckUsernameResponseDto(userService.isDuplicated(username));
 
         return ResponseEntity
             .status(HttpStatus.OK)
-            .body(Response.success(new CheckUsernameResponseDto(userService.isDuplicated(username))));
+            .body(Response.success(checkUsernameResponseDto));
     }
 }

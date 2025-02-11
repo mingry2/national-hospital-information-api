@@ -1,11 +1,13 @@
 package com.mk.national_hospital_information.user.domain;
 
+import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 @Getter @Setter
 @NoArgsConstructor
+@AllArgsConstructor
 public class User {
 
     private Long id;
@@ -18,6 +20,16 @@ public class User {
         this.username = username;
         this.password = password;
         this.role = UserRole.ADMIN;
+    }
+
+    @Override
+    public String toString() {
+        return "User{" +
+            "id=" + id +
+            ", username='" + username + '\'' +
+            ", password='" + password + '\'' +
+            ", role=" + role +
+            '}';
     }
 
 }

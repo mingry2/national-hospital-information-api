@@ -40,7 +40,12 @@ public class UserEntity {
         this.role = user.getRole();
     }
 
+    // Entity -> Domain
     public User toUser() {
-        return new User(this.id, this.username, this.password);
+        return new User(
+            this.id,
+            this.username,
+            this.password,
+            this.role);
     }
 }

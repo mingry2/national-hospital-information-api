@@ -8,12 +8,22 @@ spring:
   jpa:
     show-sql: true
     hibernate:
-      ddl-auto: create
+      ddl-auto: validate
     properties:
       hibernate:
         format_sql: true
     open-in-view: false
 
+  # flyway 설정
+  flyway:
+    enabled: true
+    baseline-on-migrate: true
+
 jwt:
   token:
     secret: ${SECRET_KEY}
+
+logging:
+  level:
+    root: info
+    com.mk: debug

@@ -1,7 +1,7 @@
 package com.mk.national_hospital_information.hospital.presentation;
 
 import com.mk.national_hospital_information.common.exception.Response;
-import com.mk.national_hospital_information.hospital.application.HospitalService;
+import com.mk.national_hospital_information.hospital.application.HospitalServiceImpl;
 import com.mk.national_hospital_information.hospital.domain.Hospital;
 import com.mk.national_hospital_information.hospital.presentation.dto.HospitalFindResponseDto;
 import com.mk.national_hospital_information.hospital.presentation.dto.HospitalResponseDto;
@@ -25,50 +25,56 @@ import org.springframework.web.bind.annotation.RestController;
 @RequiredArgsConstructor
 public class HospitalRestController {
 
-    private final HospitalService hospitalService;
+    private final HospitalServiceImpl hospitalServiceImpl;
 
     @PostMapping("/hospital")
     public ResponseEntity<Response<HospitalResponseDto>> addHospital(@RequestBody HospitalRequestDto hospitalAddRequestDto) {
-        Hospital addedHospital = hospitalService.add(hospitalAddRequestDto);
+        Hospital addedHospital = hospitalServiceImpl.add(hospitalAddRequestDto);
+        HospitalResponseDto hospitalResponseDto = new HospitalResponseDto(addedHospital.getId());
 
         return ResponseEntity
             .status(HttpStatus.OK)
-            .body(Response.success(new HospitalResponseDto(addedHospital.getId())));
+            .body(Response.success(hospitalResponseDto));
     }
 
     @PutMapping("/hospital/{hospitalId}")
     public ResponseEntity<Response<HospitalResponseDto>> updateHospital(@PathVariable Long hospitalId, @RequestBody HospitalRequestDto hospitalUpdateRequestDto) {
-        Hospital updateHospital = hospitalService.update(hospitalId, hospitalUpdateRequestDto);
+        Hospital updateHospital = hospitalServiceImpl.update(hospitalId, hospitalUpdateRequestDto);
+        HospitalResponseDto hospitalResponseDto = new HospitalResponseDto(updateHospital.getId());
 
         return ResponseEntity
             .status(HttpStatus.OK)
-            .body(Response.success(new HospitalResponseDto(updateHospital.getId())));
+            .body(Response.success(hospitalResponseDto));
     }
 
     @PatchMapping("/hospital/{hospitalId}")
     public ResponseEntity<String> deleteHospital(@PathVariable Long hospitalId) {
+        String result = hospitalServiceImpl.delete(hospitalId);
+
         return ResponseEntity
             .status(HttpStatus.OK)
-            .body(hospitalService.delete(hospitalId));
+            .body(result);
     }
 
     @GetMapping("/hospitals")
     public Page<Hospital> findAllHospitals(Pageable pageable) {
-        return hospitalService.findAll(pageable);
+
+        return hospitalServiceImpl.findAll(pageable);
     }
 
     @GetMapping("/hospital/{hospitalId}")
     public ResponseEntity<Response<HospitalFindResponseDto>> findHospital(@PathVariable Long hospitalId) {
-        Hospital findHospital = hospitalService.findById(hospitalId);
+        Hospital findHospital = hospitalServiceImpl.findById(hospitalId);
+        HospitalFindResponseDto hospitalFindResponseDto = new HospitalFindResponseDto(
+            findHospital.getId(),
+            findHospital.getHospitalName(),
+            findHospital.getAddress(),
+            findHospital.getTel(),
+            findHospital.getWebsite());
 
         return ResponseEntity
             .status(HttpStatus.OK)
-            .body(Response.success(new HospitalFindResponseDto(
-                findHospital.getId(),
-                findHospital.getHospitalName(),
-                findHospital.getAddress(),
-                findHospital.getTel(),
-                findHospital.getWebsite())));
+            .body(Response.success(hospitalFindResponseDto));
     }
 
 }

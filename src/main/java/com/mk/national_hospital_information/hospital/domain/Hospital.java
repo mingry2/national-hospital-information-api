@@ -3,8 +3,10 @@ package com.mk.national_hospital_information.hospital.domain;
 import com.mk.national_hospital_information.hospital.infrastructure.entity.HospitalEntity;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 
 @AllArgsConstructor
+@NoArgsConstructor
 @Getter
 public class Hospital {
 
@@ -22,6 +24,21 @@ public class Hospital {
     }
 
     public HospitalEntity toEntity() {
-        return new HospitalEntity(this.hospitalName, this.address, this.tel, this.website);
+        return new HospitalEntity(
+            this.hospitalName,
+            this.address,
+            this.tel,
+            this.website);
+    }
+
+    @Override
+    public String toString() {
+        return "Hospital{" +
+            "id=" + id +
+            ", hospitalName='" + hospitalName + '\'' +
+            ", address='" + address + '\'' +
+            ", tel='" + tel + '\'' +
+            ", website='" + website + '\'' +
+            '}';
     }
 }

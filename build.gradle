@@ -40,6 +40,9 @@ dependencies {
 	implementation 'org.apache.poi:poi:5.2.3'
 	implementation 'org.apache.commons:commons-collections4:4.4'
 
+	//flyway
+	implementation 'org.flywaydb:flyway-mysql'
+
 	compileOnly 'org.projectlombok:lombok'
 
 	runtimeOnly 'com.mysql:mysql-connector-j'

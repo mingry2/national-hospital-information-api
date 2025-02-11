@@ -1,6 +1,7 @@
 package com.mk.national_hospital_information.hospital.application;
 
 import com.mk.national_hospital_information.hospital.application.interfaces.HospitalRepository;
+import com.mk.national_hospital_information.hospital.application.interfaces.HospitalService;
 import com.mk.national_hospital_information.hospital.domain.Hospital;
 import com.mk.national_hospital_information.hospital.infrastructure.entity.HospitalEntity;
 import com.mk.national_hospital_information.hospital.presentation.dto.HospitalRequestDto;
@@ -14,26 +15,32 @@ import org.springframework.stereotype.Service;
 
 @Service
 @RequiredArgsConstructor
-public class HospitalService {
+public class HospitalServiceImpl implements HospitalService {
 
     private final HospitalRepository hospitalRepository;
 
+    @Override
     public Hospital add(HospitalRequestDto hospitalAddRequestDto) {
-        Hospital hospital = new Hospital(hospitalAddRequestDto.hospitalName(),
+        Hospital hospital = new Hospital(
+            hospitalAddRequestDto.hospitalName(),
             hospitalAddRequestDto.address(),
             hospitalAddRequestDto.tel(),
             hospitalAddRequestDto.website());
+
         return hospitalRepository.save(hospital);
     }
 
+    @Override
     public Hospital update(Long hospitalId, HospitalRequestDto hospitalUpdateRequestDto) {
         return hospitalRepository.update(hospitalId, hospitalUpdateRequestDto);
     }
 
+    @Override
     public String delete(Long hospitalId) {
         return hospitalRepository.deleteById(hospitalId);
     }
 
+    @Override
     public Page<Hospital> findAll(Pageable pageable) {
         Page<HospitalEntity> hospitalEntities = hospitalRepository.findAll(pageable);
 
@@ -45,6 +52,7 @@ public class HospitalService {
         return new PageImpl<>(hospitals, pageable, hospitalEntities.getTotalElements());
     }
 
+    @Override
     public Hospital findById(Long hospitalId) {
         return hospitalRepository.findById(hospitalId);
     }
