@@ -15,6 +15,10 @@ public enum ErrorCode {
 
     // hospital
     HOSPITAL_NOT_FOUND(HttpStatus.NOT_FOUND, "HOSPITAL NOT FOUND"),
+
+    // review
+    REVIEW_NOT_FOUND(HttpStatus.NOT_FOUND, "REVIEW NOT FOUND"),
+    INVALID_PERMISSION(HttpStatus.UNAUTHORIZED, "INVALID PERMISSION"),
     ;
 
     private final HttpStatus status;

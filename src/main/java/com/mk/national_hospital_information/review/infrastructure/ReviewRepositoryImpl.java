@@ -1,9 +1,12 @@
 package com.mk.national_hospital_information.review.infrastructure;
 
+import com.mk.national_hospital_information.common.exception.ErrorCode;
+import com.mk.national_hospital_information.common.exception.GlobalException;
 import com.mk.national_hospital_information.review.application.interfaces.ReviewRepository;
 import com.mk.national_hospital_information.review.domain.Review;
 import com.mk.national_hospital_information.review.infrastructure.entity.ReviewEntity;
 import com.mk.national_hospital_information.review.infrastructure.jpa.ReviewJpaRepository;
+import java.time.LocalDateTime;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Repository;
@@ -22,6 +25,61 @@ public class ReviewRepositoryImpl implements ReviewRepository {
         ReviewEntity reviewEntity = new ReviewEntity(review);
 
         return reviewJpaRepository.save(reviewEntity).toReview();
+    }
+
+    @Override
+    @Transactional
+    public Review update(Long reviewId, Long loginId, Review updateReview) {
+        ReviewEntity findReviewEntity = reviewJpaRepository.findById(reviewId)
+            .orElseThrow(() -> new GlobalException(
+                ErrorCode.REVIEW_NOT_FOUND,
+                ErrorCode.REVIEW_NOT_FOUND.getMessage()
+            ));
+
+        Long writeUserId = findReviewEntity.getUserId();
+
+        if (!writeUserId.equals(loginId)){
+            throw new GlobalException(
+                ErrorCode.INVALID_PERMISSION,
+                ErrorCode.INVALID_PERMISSION.getMessage()
+            );
+        }
+
+        findReviewEntity.updateReview(updateReview);
+
+        return findReviewEntity.toReview();
+    }
+
+    @Override
+    public void delete(Long reviewId, Long loginId) {
+        ReviewEntity findReviewEntity = reviewJpaRepository.findById(reviewId)
+            .orElseThrow(() -> new GlobalException(
+                ErrorCode.REVIEW_NOT_FOUND,
+                ErrorCode.REVIEW_NOT_FOUND.getMessage()
+            ));
+
+        Long writeUserId = findReviewEntity.getUserId();
+
+        if (!writeUserId.equals(loginId)){
+            throw new GlobalException(
+                ErrorCode.INVALID_PERMISSION,
+                ErrorCode.INVALID_PERMISSION.getMessage()
+            );
+        }
+
+        findReviewEntity.setDeletedAt(LocalDateTime.now());
+        reviewJpaRepository.save(findReviewEntity);
+    }
+
+    @Override
+    public Review findById(Long reviewId) {
+        ReviewEntity reviewEntity = reviewJpaRepository.findById(reviewId)
+            .orElseThrow(() -> new GlobalException(
+                ErrorCode.REVIEW_NOT_FOUND,
+                ErrorCode.REVIEW_NOT_FOUND.getMessage()
+            ));
+
+        return reviewEntity.toReview();
     }
 
 }

@@ -7,9 +7,9 @@ import org.springframework.data.domain.Pageable;
 
 public interface HospitalService {
 
-    Hospital add(HospitalRequestDto hospitalAddRequestDto);
-    Hospital update(Long hospitalId, HospitalRequestDto hospitalUpdateRequestDto);
-    String delete(Long hospitalId);
+    Hospital save(Long loginId, HospitalRequestDto hospitalAddRequestDto);
+    Hospital update(Long hospitalId, Long writerUserId, HospitalRequestDto hospitalUpdateRequestDto);
+    String delete(Long hospitalId, Long loginId);
     Page<Hospital> findAll(Pageable pageable);
     Hospital findById(Long hospitalId);
 

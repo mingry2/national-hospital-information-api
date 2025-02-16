@@ -8,5 +8,7 @@ public interface UserService {
     User join(UserJoinRequestDto userJoinRequestDto);
     Boolean isDuplicated(String username);
     User verifyUserId(Long userId);
+    User findByUsername(String username);
+    User findById(Long userId);
 
 }

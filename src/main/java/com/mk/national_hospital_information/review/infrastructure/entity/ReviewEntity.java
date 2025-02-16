@@ -1,5 +1,6 @@
 package com.mk.national_hospital_information.review.infrastructure.entity;
 
+import com.mk.national_hospital_information.common.domain.BaseEntity;
 import com.mk.national_hospital_information.review.domain.Review;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -10,13 +11,15 @@ import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import org.hibernate.annotations.SQLRestriction;
 
 @Entity
 @NoArgsConstructor
 @AllArgsConstructor
 @Table(name = "review")
 @Getter
-public class ReviewEntity {
+@SQLRestriction("deleted_at IS NULL")
+public class ReviewEntity extends BaseEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -41,6 +44,14 @@ public class ReviewEntity {
         this.hospitalId = review.getHospitalId();
     }
 
+    public void updateReview(Review review) {
+        this.title = review.getTitle();
+        this.content = review.getContent();
+        this.satisfaction = review.getSatisfaction();
+        this.userId = review.getUserId();
+        this.hospitalId = review.getHospitalId();
+    }
+
     // Entity -> Domain
     public Review toReview() {
         return new Review(
@@ -51,17 +62,5 @@ public class ReviewEntity {
             this.userId,
             this.hospitalId
         );
-    }
-
-    @Override
-    public String toString() {
-        return "ReviewEntity{" +
-            "id=" + id +
-            ", title='" + title + '\'' +
-            ", content='" + content + '\'' +
-            ", satisfaction=" + satisfaction +
-            ", userId=" + userId +
-            ", hospitalId=" + hospitalId +
-            '}';
     }
 }

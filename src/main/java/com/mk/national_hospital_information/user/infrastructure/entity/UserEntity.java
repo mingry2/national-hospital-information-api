@@ -13,13 +13,15 @@ import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import org.hibernate.annotations.SQLRestriction;
 
 @Entity
 @NoArgsConstructor
 @AllArgsConstructor
 @Table(name = "user")
 @Getter
-public class UserEntity {
+@SQLRestriction("deleted_at IS NULL")
+public class UserEntity extends UserBaseEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

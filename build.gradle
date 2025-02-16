@@ -43,6 +43,9 @@ dependencies {
 	//flyway
 	implementation 'org.flywaydb:flyway-mysql'
 
+	//쿼리 파라미터 로그
+	implementation 'com.github.gavlyukovskiy:p6spy-spring-boot-starter:1.9.0'
+
 	compileOnly 'org.projectlombok:lombok'
 
 	runtimeOnly 'com.mysql:mysql-connector-j'

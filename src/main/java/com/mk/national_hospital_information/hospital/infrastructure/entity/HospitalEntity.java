@@ -1,5 +1,6 @@
 package com.mk.national_hospital_information.hospital.infrastructure.entity;
 
+import com.mk.national_hospital_information.common.domain.BaseEntity;
 import com.mk.national_hospital_information.hospital.domain.Hospital;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -11,13 +12,15 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.hibernate.annotations.SQLRestriction;
 
 @Entity
 @NoArgsConstructor
 @AllArgsConstructor
 @Table(name = "hospital")
 @Getter @Setter
-public class HospitalEntity {
+@SQLRestriction("deleted_at IS NULL")
+public class HospitalEntity extends BaseEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -33,11 +36,14 @@ public class HospitalEntity {
 
     private String website;
 
+    private Long userId;
+
     public HospitalEntity(Hospital hospital) {
         this.hospitalName = hospital.getHospitalName();
         this.address = hospital.getAddress();
         this.tel = hospital.getTel();
         this.website = hospital.getWebsite();
+        this.userId = hospital.getUserId();
     }
 
     public HospitalEntity(String hospitalName, String address, String tel, String website) {
@@ -47,6 +53,13 @@ public class HospitalEntity {
         this.website = website;
     }
 
+    public void updateHospital(Hospital updateHospital) {
+        this.hospitalName = updateHospital.getHospitalName();
+        this.address = updateHospital.getAddress();
+        this.tel = updateHospital.getTel();
+        this.website = updateHospital.getWebsite();
+    }
+
     // Entity -> Domain
     public Hospital toHospital() {
         return new Hospital(
@@ -54,6 +67,8 @@ public class HospitalEntity {
             this.hospitalName,
             this.address,
             this.tel,
-            this.website);
+            this.website,
+            this.userId
+        );
     }
 }

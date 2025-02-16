@@ -6,7 +6,7 @@ import com.mk.national_hospital_information.hospital.application.interfaces.Hosp
 import com.mk.national_hospital_information.hospital.domain.Hospital;
 import com.mk.national_hospital_information.hospital.infrastructure.entity.HospitalEntity;
 import com.mk.national_hospital_information.hospital.infrastructure.jpa.HospitalJpaRepository;
-import com.mk.national_hospital_information.hospital.presentation.dto.HospitalRequestDto;
+import java.time.LocalDateTime;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
@@ -24,7 +24,53 @@ public class HospitalRepositoryImpl implements HospitalRepository {
     @Override
     public Hospital save(Hospital hospital) {
         HospitalEntity hospitalEntity = new HospitalEntity(hospital);
+
         return hospitalJpaRepository.save(hospitalEntity).toHospital();
+    }
+
+    @Override
+    @Transactional
+    public Hospital update(Long oldHospitalId, Long loginId, Hospital hospital) {
+        HospitalEntity oldHospitalEntity = hospitalJpaRepository.findById(oldHospitalId)
+            .orElseThrow(() -> new GlobalException(
+                ErrorCode.HOSPITAL_NOT_FOUND,
+                ErrorCode.HOSPITAL_NOT_FOUND.getMessage()
+            ));
+
+        Long writeUserId = oldHospitalEntity.getUserId();
+
+        if (!writeUserId.equals(loginId)){
+            throw new GlobalException(
+                ErrorCode.INVALID_PERMISSION,
+                ErrorCode.INVALID_PERMISSION.getMessage()
+            );
+        }
+
+        oldHospitalEntity.updateHospital(hospital);
+
+        return oldHospitalEntity.toHospital();
+    }
+
+    @Override
+    public void delete(Long hospitalId, Long loginId) {
+        HospitalEntity findHospitalEntity = hospitalJpaRepository.findById(hospitalId)
+            .orElseThrow(() -> new GlobalException(
+                ErrorCode.HOSPITAL_NOT_FOUND,
+                ErrorCode.HOSPITAL_NOT_FOUND.getMessage()
+            ));
+
+        Long writeUserId = findHospitalEntity.getUserId();
+
+        if (!writeUserId.equals(loginId)){
+            throw new GlobalException(
+                ErrorCode.INVALID_PERMISSION,
+                ErrorCode.INVALID_PERMISSION.getMessage()
+            );
+        }
+
+        findHospitalEntity.setDeletedAt(LocalDateTime.now());
+        hospitalJpaRepository.save(findHospitalEntity);
+
     }
 
     @Override
@@ -34,6 +80,7 @@ public class HospitalRepositoryImpl implements HospitalRepository {
                 ErrorCode.HOSPITAL_NOT_FOUND,
                 ErrorCode.HOSPITAL_NOT_FOUND.getMessage()
             ));
+
         return hospitalEntity.toHospital();
     }
 
@@ -43,34 +90,8 @@ public class HospitalRepositoryImpl implements HospitalRepository {
     }
 
     @Override
-    public String deleteById(Long id) {
-        HospitalEntity hospitalEntity = hospitalJpaRepository.findById(id)
-            .orElseThrow(() -> new GlobalException(
-                ErrorCode.HOSPITAL_NOT_FOUND,
-                ErrorCode.HOSPITAL_NOT_FOUND.getMessage()
-            ));
-        hospitalJpaRepository.deleteById(hospitalEntity.getId());
-        return "deleted";
-    }
-
-    @Override
-    public Hospital update(Long hospitalId, HospitalRequestDto hospitalUpdateRequestDto) {
-        HospitalEntity hospitalEntity = hospitalJpaRepository.findById(hospitalId)
-            .orElseThrow(() -> new GlobalException(
-                ErrorCode.HOSPITAL_NOT_FOUND,
-                ErrorCode.HOSPITAL_NOT_FOUND.getMessage()
-            ));
-
-        hospitalEntity.setHospitalName(hospitalUpdateRequestDto.hospitalName());
-        hospitalEntity.setAddress(hospitalUpdateRequestDto.address());
-        hospitalEntity.setTel(hospitalUpdateRequestDto.tel());
-        hospitalEntity.setWebsite(hospitalUpdateRequestDto.website());
-
-        return hospitalJpaRepository.save(hospitalEntity).toHospital();
-    }
-
-    @Override
     public Page<HospitalEntity> findAll(Pageable pageable) {
+
         return hospitalJpaRepository.findAll(pageable);
     }
 }

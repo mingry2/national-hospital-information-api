@@ -12,6 +12,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 @Service
 @RequiredArgsConstructor
@@ -20,24 +21,30 @@ public class HospitalServiceImpl implements HospitalService {
     private final HospitalRepository hospitalRepository;
 
     @Override
-    public Hospital add(HospitalRequestDto hospitalAddRequestDto) {
-        Hospital hospital = new Hospital(
-            hospitalAddRequestDto.hospitalName(),
-            hospitalAddRequestDto.address(),
-            hospitalAddRequestDto.tel(),
-            hospitalAddRequestDto.website());
+    public Hospital save(Long loginId, HospitalRequestDto hospitalAddRequestDto) {
+        Hospital hospital = new Hospital(loginId, hospitalAddRequestDto);
 
         return hospitalRepository.save(hospital);
     }
 
     @Override
-    public Hospital update(Long hospitalId, HospitalRequestDto hospitalUpdateRequestDto) {
-        return hospitalRepository.update(hospitalId, hospitalUpdateRequestDto);
+    @Transactional
+    public Hospital update(Long hospitalId, Long loginId, HospitalRequestDto hospitalUpdateRequestDto) {
+        // 병원이 존재하는지 검증
+        Long oldHospitalId = hospitalRepository.findById(hospitalId).getId();
+
+        Hospital hospital = new Hospital(hospitalUpdateRequestDto);
+
+        return hospitalRepository.update(oldHospitalId, loginId, hospital);
     }
 
     @Override
-    public String delete(Long hospitalId) {
-        return hospitalRepository.deleteById(hospitalId);
+    public String delete(Long hospitalId, Long loginId) {
+        hospitalRepository.findById(hospitalId);
+
+        hospitalRepository.delete(hospitalId, loginId);
+
+        return "Hospital deleted";
     }
 
     @Override
@@ -54,6 +61,7 @@ public class HospitalServiceImpl implements HospitalService {
 
     @Override
     public Hospital findById(Long hospitalId) {
+
         return hospitalRepository.findById(hospitalId);
     }
 }

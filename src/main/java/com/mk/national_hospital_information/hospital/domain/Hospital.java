@@ -1,6 +1,7 @@
 package com.mk.national_hospital_information.hospital.domain;
 
 import com.mk.national_hospital_information.hospital.infrastructure.entity.HospitalEntity;
+import com.mk.national_hospital_information.hospital.presentation.dto.HospitalRequestDto;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -15,12 +16,28 @@ public class Hospital {
     private String address;
     private String tel;
     private String website;
+    private Long userId;
 
     public Hospital(String hospitalName, String address, String tel, String website) {
         this.hospitalName = hospitalName;
         this.address = address;
         this.tel = tel;
         this.website = website;
+    }
+
+    public Hospital(Long loginId, HospitalRequestDto hospitalAddRequestDto) {
+        this.hospitalName = hospitalAddRequestDto.hospitalName();
+        this.address = hospitalAddRequestDto.address();
+        this.tel = hospitalAddRequestDto.tel();
+        this.website = hospitalAddRequestDto.website();
+        this.userId = loginId;
+    }
+
+    public Hospital(HospitalRequestDto hospitalAddRequestDto) {
+        this.hospitalName = hospitalAddRequestDto.hospitalName();
+        this.address = hospitalAddRequestDto.address();
+        this.tel = hospitalAddRequestDto.tel();
+        this.website = hospitalAddRequestDto.website();
     }
 
     public HospitalEntity toEntity() {
@@ -39,6 +56,7 @@ public class Hospital {
             ", address='" + address + '\'' +
             ", tel='" + tel + '\'' +
             ", website='" + website + '\'' +
+            ", userId=" + userId +
             '}';
     }
 }

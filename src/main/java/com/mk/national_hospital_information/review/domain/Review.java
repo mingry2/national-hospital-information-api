@@ -1,7 +1,6 @@
 package com.mk.national_hospital_information.review.domain;
 
-import com.mk.national_hospital_information.hospital.domain.Hospital;
-import com.mk.national_hospital_information.user.domain.User;
+import com.mk.national_hospital_information.review.presentation.dto.ReviewRequestDto;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 
@@ -16,12 +15,19 @@ public class Review {
     private Long userId;
     private Long hospitalId;
 
-    public Review(String title, String content, Long satisfaction, User user, Hospital hospital) {
-        this.title = title;
-        this.content = content;
-        this.satisfaction = satisfaction;
-        this.userId = user.getId();
-        this.hospitalId = hospital.getId();
+    public Review(Long hospitalId, Long userId, ReviewRequestDto reviewRequestDto) {
+        this.title = reviewRequestDto.title();
+        this.content = reviewRequestDto.content();
+        this.satisfaction = reviewRequestDto.satisfaction();
+        this.userId = userId;
+        this.hospitalId = hospitalId;
+    }
+
+    public Review(Long hospitalId, ReviewRequestDto reviewRequestDto) {
+        this.title = reviewRequestDto.title();
+        this.content = reviewRequestDto.content();
+        this.satisfaction = reviewRequestDto.satisfaction();
+        this.hospitalId = hospitalId;
     }
 
     @Override
@@ -31,6 +37,8 @@ public class Review {
             ", title='" + title + '\'' +
             ", content='" + content + '\'' +
             ", satisfaction=" + satisfaction +
+            ", userId=" + userId +
+            ", hospitalId=" + hospitalId +
             '}';
     }
 }
