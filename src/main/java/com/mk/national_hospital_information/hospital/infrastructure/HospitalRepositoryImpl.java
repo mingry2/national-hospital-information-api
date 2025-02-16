@@ -7,6 +7,7 @@ import com.mk.national_hospital_information.hospital.domain.Hospital;
 import com.mk.national_hospital_information.hospital.infrastructure.entity.HospitalEntity;
 import com.mk.national_hospital_information.hospital.infrastructure.jpa.HospitalJpaRepository;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
@@ -85,13 +86,19 @@ public class HospitalRepositoryImpl implements HospitalRepository {
     }
 
     @Override
-    public void saveAll(List<HospitalEntity> hospitalEntities) {
-        hospitalJpaRepository.saveAll(hospitalEntities);
+    public List<Hospital> findAll(Pageable pageable) {
+        Page<HospitalEntity> hospitalEntities = hospitalJpaRepository.findAll(pageable);
+
+        List<Hospital> hospitals = new ArrayList<>();
+        for (HospitalEntity hospitalEntity : hospitalEntities) {
+            hospitals.add(hospitalEntity.toHospital());
+        }
+
+        return hospitals;
     }
 
     @Override
-    public Page<HospitalEntity> findAll(Pageable pageable) {
-
-        return hospitalJpaRepository.findAll(pageable);
+    public void saveAll(List<HospitalEntity> hospitalEntities) {
+        hospitalJpaRepository.saveAll(hospitalEntities);
     }
 }

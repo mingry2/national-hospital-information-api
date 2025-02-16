@@ -3,13 +3,17 @@ package com.mk.national_hospital_information.review.presentation;
 import com.mk.national_hospital_information.common.exception.Response;
 import com.mk.national_hospital_information.review.application.interfaces.ReviewService;
 import com.mk.national_hospital_information.review.domain.Review;
+import com.mk.national_hospital_information.review.presentation.dto.ReviewFindResponseDto;
 import com.mk.national_hospital_information.review.presentation.dto.ReviewRequestDto;
 import com.mk.national_hospital_information.review.presentation.dto.ReviewResponseDto;
 import com.mk.national_hospital_information.user.application.interfaces.UserService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -59,6 +63,30 @@ public class ReviewRestController {
         return ResponseEntity
             .status(HttpStatus.OK)
             .body(result);
+    }
+
+    @GetMapping("/{hospitalId}/review/{reviewId}")
+    public ResponseEntity<Response<ReviewFindResponseDto>> findReview(@PathVariable Long hospitalId, @PathVariable Long reviewId) {
+        Review findReview = reviewService.findByReviewId(hospitalId, reviewId);
+
+        ReviewFindResponseDto reviewFindResponseDto = new ReviewFindResponseDto(
+            hospitalId,
+            reviewId,
+            findReview.getTitle(),
+            findReview.getContent(),
+            findReview.getSatisfaction(),
+            findReview.getUserId()
+        );
+
+        return ResponseEntity
+            .status(HttpStatus.OK)
+            .body(Response.success(reviewFindResponseDto));
+    }
+
+    @GetMapping("/reviews")
+    public Page<Review> findAllReviews(Pageable pageable) {
+
+        return reviewService.findAll(pageable);
     }
 
     private Long getUserId() {

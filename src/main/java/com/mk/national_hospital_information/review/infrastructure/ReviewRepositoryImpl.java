@@ -7,8 +7,12 @@ import com.mk.national_hospital_information.review.domain.Review;
 import com.mk.national_hospital_information.review.infrastructure.entity.ReviewEntity;
 import com.mk.national_hospital_information.review.infrastructure.jpa.ReviewJpaRepository;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -80,6 +84,18 @@ public class ReviewRepositoryImpl implements ReviewRepository {
             ));
 
         return reviewEntity.toReview();
+    }
+
+    @Override
+    public List<Review> findAll(Pageable pageable) {
+        Page<ReviewEntity> reviewEntities = reviewJpaRepository.findAll(pageable);
+
+        List<Review> reviews = new ArrayList<>();
+        for (ReviewEntity reviewEntity : reviewEntities) {
+            reviews.add(reviewEntity.toReview());
+        }
+
+        return reviews;
     }
 
 }

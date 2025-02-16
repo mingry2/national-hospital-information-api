@@ -10,7 +10,7 @@ public interface HospitalService {
     Hospital save(Long loginId, HospitalRequestDto hospitalAddRequestDto);
     Hospital update(Long hospitalId, Long writerUserId, HospitalRequestDto hospitalUpdateRequestDto);
     String delete(Long hospitalId, Long loginId);
+    Hospital findByHospitalId(Long hospitalId);
     Page<Hospital> findAll(Pageable pageable);
-    Hospital findById(Long hospitalId);
 
 }

@@ -3,9 +3,7 @@ package com.mk.national_hospital_information.hospital.application;
 import com.mk.national_hospital_information.hospital.application.interfaces.HospitalRepository;
 import com.mk.national_hospital_information.hospital.application.interfaces.HospitalService;
 import com.mk.national_hospital_information.hospital.domain.Hospital;
-import com.mk.national_hospital_information.hospital.infrastructure.entity.HospitalEntity;
 import com.mk.national_hospital_information.hospital.presentation.dto.HospitalRequestDto;
-import java.util.ArrayList;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
@@ -49,18 +47,13 @@ public class HospitalServiceImpl implements HospitalService {
 
     @Override
     public Page<Hospital> findAll(Pageable pageable) {
-        Page<HospitalEntity> hospitalEntities = hospitalRepository.findAll(pageable);
+        List<Hospital> hospitals = hospitalRepository.findAll(pageable);
 
-        List<Hospital> hospitals = new ArrayList<>();
-        for (HospitalEntity hospitalEntity : hospitalEntities) {
-            hospitals.add(hospitalEntity.toHospital());
-        }
-
-        return new PageImpl<>(hospitals, pageable, hospitalEntities.getTotalElements());
+        return new PageImpl<>(hospitals, pageable, hospitals.size());
     }
 
     @Override
-    public Hospital findById(Long hospitalId) {
+    public Hospital findByHospitalId(Long hospitalId) {
 
         return hospitalRepository.findById(hospitalId);
     }

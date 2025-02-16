@@ -68,7 +68,7 @@ public class HospitalRestController {
 
     @GetMapping("/hospital/{hospitalId}")
     public ResponseEntity<Response<HospitalFindResponseDto>> findHospital(@PathVariable Long hospitalId) {
-        Hospital findHospital = hospitalService.findById(hospitalId);
+        Hospital findHospital = hospitalService.findByHospitalId(hospitalId);
 
         HospitalFindResponseDto hospitalFindResponseDto = new HospitalFindResponseDto(
             findHospital.getId(),
