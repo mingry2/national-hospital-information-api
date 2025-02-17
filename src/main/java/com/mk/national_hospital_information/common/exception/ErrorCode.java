@@ -19,6 +19,10 @@ public enum ErrorCode {
     // review
     REVIEW_NOT_FOUND(HttpStatus.NOT_FOUND, "REVIEW NOT FOUND"),
     INVALID_PERMISSION(HttpStatus.UNAUTHORIZED, "INVALID PERMISSION"),
+
+    // comment
+    COMMENT_NOT_FOUND(HttpStatus.NOT_FOUND, "COMMENT NOT FOUND"),
+
     ;
 
     private final HttpStatus status;

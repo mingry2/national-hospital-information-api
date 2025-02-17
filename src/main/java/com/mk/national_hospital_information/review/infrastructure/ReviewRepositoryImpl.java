@@ -6,6 +6,7 @@ import com.mk.national_hospital_information.review.application.interfaces.Review
 import com.mk.national_hospital_information.review.domain.Review;
 import com.mk.national_hospital_information.review.infrastructure.entity.ReviewEntity;
 import com.mk.national_hospital_information.review.infrastructure.jpa.ReviewJpaRepository;
+import com.mk.national_hospital_information.review.presentation.dto.ReviewRequestDto;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
@@ -32,15 +33,14 @@ public class ReviewRepositoryImpl implements ReviewRepository {
     }
 
     @Override
-    @Transactional
-    public Review update(Long reviewId, Long loginId, Review updateReview) {
-        ReviewEntity findReviewEntity = reviewJpaRepository.findById(reviewId)
+    public Review update(Long reviewId, Long loginId, ReviewRequestDto reviewUpdateRequestDto) {
+        ReviewEntity oldReviewEntity = reviewJpaRepository.findById(reviewId)
             .orElseThrow(() -> new GlobalException(
                 ErrorCode.REVIEW_NOT_FOUND,
                 ErrorCode.REVIEW_NOT_FOUND.getMessage()
             ));
 
-        Long writeUserId = findReviewEntity.getUserId();
+        Long writeUserId = oldReviewEntity.getUserId();
 
         if (!writeUserId.equals(loginId)){
             throw new GlobalException(
@@ -49,9 +49,14 @@ public class ReviewRepositoryImpl implements ReviewRepository {
             );
         }
 
-        findReviewEntity.updateReview(updateReview);
+        // 더티체킹
+        oldReviewEntity.updateReview(
+            reviewUpdateRequestDto.title(),
+            reviewUpdateRequestDto.content(),
+            reviewUpdateRequestDto.satisfaction()
+        );
 
-        return findReviewEntity.toReview();
+        return oldReviewEntity.toReview();
     }
 
     @Override
@@ -63,7 +68,6 @@ public class ReviewRepositoryImpl implements ReviewRepository {
             ));
 
         Long writeUserId = findReviewEntity.getUserId();
-
         if (!writeUserId.equals(loginId)){
             throw new GlobalException(
                 ErrorCode.INVALID_PERMISSION,
@@ -71,6 +75,7 @@ public class ReviewRepositoryImpl implements ReviewRepository {
             );
         }
 
+        // soft delete
         findReviewEntity.setDeletedAt(LocalDateTime.now());
         reviewJpaRepository.save(findReviewEntity);
     }

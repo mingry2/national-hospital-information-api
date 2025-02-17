@@ -1,7 +1,7 @@
 package com.mk.national_hospital_information.review.infrastructure.entity;
 
 import com.mk.national_hospital_information.common.domain.BaseEntity;
-import com.mk.national_hospital_information.review.domain.Review;
+import com.mk.national_hospital_information.review.domain.Comment;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -16,49 +16,39 @@ import org.hibernate.annotations.SQLRestriction;
 @Entity
 @NoArgsConstructor
 @AllArgsConstructor
-@Table(name = "review")
+@Table(name = "comment")
 @Getter
 @SQLRestriction("deleted_at IS NULL")
-public class ReviewEntity extends BaseEntity {
+public class CommentEntity extends BaseEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "review_id")
+    @Column(name = "comment_id")
     private Long id;
-
-    private String title;
 
     private String content;
 
-    private Long satisfaction;
-
     private Long userId;
 
-    private Long hospitalId;
+    private Long reviewId;
 
-    public ReviewEntity(Review review) {
-        this.title = review.getTitle();
-        this.content = review.getContent();
-        this.satisfaction = review.getSatisfaction();
-        this.userId = review.getUserId();
-        this.hospitalId = review.getHospitalId();
+    public CommentEntity(Comment comment) {
+        this.content = comment.getContent();
+        this.userId = comment.getUserId();
+        this.reviewId = comment.getReviewId();
     }
 
-    public void updateReview(String title, String content, Long satisfaction) {
-        this.title = title;
+    public void updateComment(String content) {
         this.content = content;
-        this.satisfaction = satisfaction;
     }
 
-    // Entity -> Domain
-    public Review toReview() {
-        return new Review(
+    public Comment toComment() {
+        return new Comment(
             this.id,
-            this.title,
             this.content,
-            this.satisfaction,
             this.userId,
-            this.hospitalId
+            this.reviewId
         );
     }
+
 }

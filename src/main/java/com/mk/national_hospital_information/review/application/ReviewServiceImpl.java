@@ -41,9 +41,7 @@ public class ReviewServiceImpl implements ReviewService {
     public Review update(Long hospitalId, Long reviewId, Long loginId, ReviewRequestDto reviewUpdateRequestDto) {
         validate(hospitalId, loginId);
 
-        Review updateReview = new Review(reviewId, reviewUpdateRequestDto);
-
-        return reviewRepository.update(reviewId, loginId, updateReview);
+        return reviewRepository.update(reviewId, loginId, reviewUpdateRequestDto);
     }
 
     @Override
@@ -59,6 +57,12 @@ public class ReviewServiceImpl implements ReviewService {
     public Review findByReviewId(Long hospitalId, Long reviewId) {
         // 병원이 존재하는지 검증
         hospitalRepository.findById(hospitalId);
+
+        return reviewRepository.findById(reviewId);
+    }
+
+    @Override
+    public Review findById(Long reviewId) {
 
         return reviewRepository.findById(reviewId);
     }

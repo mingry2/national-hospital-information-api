@@ -6,6 +6,7 @@ import com.mk.national_hospital_information.hospital.application.interfaces.Hosp
 import com.mk.national_hospital_information.hospital.domain.Hospital;
 import com.mk.national_hospital_information.hospital.infrastructure.entity.HospitalEntity;
 import com.mk.national_hospital_information.hospital.infrastructure.jpa.HospitalJpaRepository;
+import com.mk.national_hospital_information.hospital.presentation.dto.HospitalRequestDto;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
@@ -30,8 +31,8 @@ public class HospitalRepositoryImpl implements HospitalRepository {
     }
 
     @Override
-    @Transactional
-    public Hospital update(Long oldHospitalId, Long loginId, Hospital hospital) {
+    public Hospital update(Long oldHospitalId, Long loginId,
+        HospitalRequestDto hospitalUpdateRequestDto) {
         HospitalEntity oldHospitalEntity = hospitalJpaRepository.findById(oldHospitalId)
             .orElseThrow(() -> new GlobalException(
                 ErrorCode.HOSPITAL_NOT_FOUND,
@@ -47,7 +48,12 @@ public class HospitalRepositoryImpl implements HospitalRepository {
             );
         }
 
-        oldHospitalEntity.updateHospital(hospital);
+        // 더티체킹
+        oldHospitalEntity.updateHospital(
+            hospitalUpdateRequestDto.hospitalName(),
+            hospitalUpdateRequestDto.address(),
+            hospitalUpdateRequestDto.tel(),
+            hospitalUpdateRequestDto.website());
 
         return oldHospitalEntity.toHospital();
     }
@@ -69,9 +75,9 @@ public class HospitalRepositoryImpl implements HospitalRepository {
             );
         }
 
+        // soft delete
         findHospitalEntity.setDeletedAt(LocalDateTime.now());
         hospitalJpaRepository.save(findHospitalEntity);
-
     }
 
     @Override

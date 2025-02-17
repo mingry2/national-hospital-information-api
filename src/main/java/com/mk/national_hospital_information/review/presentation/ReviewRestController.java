@@ -47,6 +47,7 @@ public class ReviewRestController {
         Long loginId = getUserId();
 
         Review updatedReview = reviewService.update(hospitalId, reviewId, loginId, reviewUpdateRequestDto);
+
         ReviewResponseDto reviewUpdateResponseDto = new ReviewResponseDto(updatedReview.getId());
 
         return ResponseEntity
@@ -84,7 +85,7 @@ public class ReviewRestController {
     }
 
     @GetMapping("/reviews")
-    public Page<Review> findAllReviews(Pageable pageable) {
+    public Page<Review> findAllReview(Pageable pageable) {
 
         return reviewService.findAll(pageable);
     }

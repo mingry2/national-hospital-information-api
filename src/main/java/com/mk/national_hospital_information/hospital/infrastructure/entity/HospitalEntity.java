@@ -53,11 +53,11 @@ public class HospitalEntity extends BaseEntity {
         this.website = website;
     }
 
-    public void updateHospital(Hospital updateHospital) {
-        this.hospitalName = updateHospital.getHospitalName();
-        this.address = updateHospital.getAddress();
-        this.tel = updateHospital.getTel();
-        this.website = updateHospital.getWebsite();
+    public void updateHospital(String hospitalName, String address, String tel, String website) {
+        this.hospitalName = hospitalName;
+        this.address = address;
+        this.tel = tel;
+        this.website = website;
     }
 
     // Entity -> Domain

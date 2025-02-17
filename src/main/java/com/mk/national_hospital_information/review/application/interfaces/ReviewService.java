@@ -12,4 +12,5 @@ public interface ReviewService {
     String delete(Long hospitalId, Long reviewId, Long writeUserId);
     Review findByReviewId(Long hospitalId, Long reviewId);
     Page<Review> findAll(Pageable pageable);
+    Review findById(Long reviewId);
 }

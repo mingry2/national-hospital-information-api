@@ -31,9 +31,7 @@ public class HospitalServiceImpl implements HospitalService {
         // 병원이 존재하는지 검증
         Long oldHospitalId = hospitalRepository.findById(hospitalId).getId();
 
-        Hospital hospital = new Hospital(hospitalUpdateRequestDto);
-
-        return hospitalRepository.update(oldHospitalId, loginId, hospital);
+        return hospitalRepository.update(oldHospitalId, loginId, hospitalUpdateRequestDto);
     }
 
     @Override
