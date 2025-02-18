@@ -23,6 +23,10 @@ public enum ErrorCode {
     // comment
     COMMENT_NOT_FOUND(HttpStatus.NOT_FOUND, "COMMENT NOT FOUND"),
 
+    // like
+    DUPLICATED_LIKE(HttpStatus.CONFLICT, "DUPLICATED LIKE"),
+    LIKE_NOT_FOUND(HttpStatus.NOT_FOUND, "Like NOT FOUND"),
+
     ;
 
     private final HttpStatus status;

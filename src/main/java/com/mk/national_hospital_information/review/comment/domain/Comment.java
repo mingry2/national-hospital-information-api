@@ -1,6 +1,6 @@
-package com.mk.national_hospital_information.review.domain;
+package com.mk.national_hospital_information.review.comment.domain;
 
-import com.mk.national_hospital_information.review.presentation.dto.CommentRequestDto;
+import com.mk.national_hospital_information.review.comment.presentation.dto.CommentRequestDto;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 

@@ -1,7 +1,7 @@
-package com.mk.national_hospital_information.review.application.interfaces;
+package com.mk.national_hospital_information.review.comment.application.interfaces;
 
-import com.mk.national_hospital_information.review.domain.Comment;
-import com.mk.national_hospital_information.review.presentation.dto.CommentRequestDto;
+import com.mk.national_hospital_information.review.comment.domain.Comment;
+import com.mk.national_hospital_information.review.comment.presentation.dto.CommentRequestDto;
 import java.util.List;
 import org.springframework.data.domain.Pageable;
 

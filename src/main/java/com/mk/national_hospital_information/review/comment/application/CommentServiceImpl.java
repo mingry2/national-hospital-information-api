@@ -1,10 +1,10 @@
-package com.mk.national_hospital_information.review.application;
+package com.mk.national_hospital_information.review.comment.application;
 
-import com.mk.national_hospital_information.review.application.interfaces.CommentRepository;
-import com.mk.national_hospital_information.review.application.interfaces.CommentService;
+import com.mk.national_hospital_information.review.comment.application.interfaces.CommentRepository;
+import com.mk.national_hospital_information.review.comment.application.interfaces.CommentService;
 import com.mk.national_hospital_information.review.application.interfaces.ReviewService;
-import com.mk.national_hospital_information.review.domain.Comment;
-import com.mk.national_hospital_information.review.presentation.dto.CommentRequestDto;
+import com.mk.national_hospital_information.review.comment.domain.Comment;
+import com.mk.national_hospital_information.review.comment.presentation.dto.CommentRequestDto;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;

@@ -1,13 +1,12 @@
-package com.mk.national_hospital_information.review.presentation;
+package com.mk.national_hospital_information.review.comment.presentation;
 
 import com.mk.national_hospital_information.common.exception.Response;
-import com.mk.national_hospital_information.review.application.interfaces.CommentService;
-import com.mk.national_hospital_information.review.domain.Comment;
-import com.mk.national_hospital_information.review.presentation.dto.CommentFindResponseDto;
-import com.mk.national_hospital_information.review.presentation.dto.CommentRequestDto;
-import com.mk.national_hospital_information.review.presentation.dto.CommentResponseDto;
+import com.mk.national_hospital_information.review.comment.application.interfaces.CommentService;
+import com.mk.national_hospital_information.review.comment.domain.Comment;
+import com.mk.national_hospital_information.review.comment.presentation.dto.CommentFindResponseDto;
+import com.mk.national_hospital_information.review.comment.presentation.dto.CommentRequestDto;
+import com.mk.national_hospital_information.review.comment.presentation.dto.CommentResponseDto;
 import com.mk.national_hospital_information.user.application.interfaces.UserService;
-import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;

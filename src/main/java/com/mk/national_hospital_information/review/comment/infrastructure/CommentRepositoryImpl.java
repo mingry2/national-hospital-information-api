@@ -1,12 +1,12 @@
-package com.mk.national_hospital_information.review.infrastructure;
+package com.mk.national_hospital_information.review.comment.infrastructure;
 
 import com.mk.national_hospital_information.common.exception.ErrorCode;
 import com.mk.national_hospital_information.common.exception.GlobalException;
-import com.mk.national_hospital_information.review.application.interfaces.CommentRepository;
-import com.mk.national_hospital_information.review.domain.Comment;
-import com.mk.national_hospital_information.review.infrastructure.entity.CommentEntity;
-import com.mk.national_hospital_information.review.infrastructure.jpa.CommentJpaRepository;
-import com.mk.national_hospital_information.review.presentation.dto.CommentRequestDto;
+import com.mk.national_hospital_information.review.comment.application.interfaces.CommentRepository;
+import com.mk.national_hospital_information.review.comment.domain.Comment;
+import com.mk.national_hospital_information.review.comment.infrastructure.entity.CommentEntity;
+import com.mk.national_hospital_information.review.comment.infrastructure.jpa.CommentJpaRepository;
+import com.mk.national_hospital_information.review.comment.presentation.dto.CommentRequestDto;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
