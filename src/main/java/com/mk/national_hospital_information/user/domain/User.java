@@ -22,6 +22,12 @@ public class User {
         this.role = UserRole.ADMIN;
     }
 
+    // 테스트
+    public User(long userId, String userName) {
+        this.id = userId;
+        this.username = userName;
+    }
+
     @Override
     public String toString() {
         return "User{" +

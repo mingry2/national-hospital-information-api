@@ -25,7 +25,6 @@ public class ReviewServiceImpl implements ReviewService {
     private final HospitalRepository hospitalRepository;
 
     private final UserService userService;
-    private final HospitalJpaRepository hospitalJpaRepository;
 
     @Override
     public Review save(Long hospitalId, Long loginId, ReviewRequestDto reviewAddRequestDto) {

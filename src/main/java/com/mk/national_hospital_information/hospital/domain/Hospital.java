@@ -33,19 +33,13 @@ public class Hospital {
         this.userId = loginId;
     }
 
-    public Hospital(HospitalRequestDto hospitalAddRequestDto) {
-        this.hospitalName = hospitalAddRequestDto.hospitalName();
-        this.address = hospitalAddRequestDto.address();
-        this.tel = hospitalAddRequestDto.tel();
-        this.website = hospitalAddRequestDto.website();
-    }
-
     public HospitalEntity toEntity() {
         return new HospitalEntity(
             this.hospitalName,
             this.address,
             this.tel,
-            this.website);
+            this.website
+        );
     }
 
     @Override

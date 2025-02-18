@@ -31,8 +31,7 @@ public class HospitalRepositoryImpl implements HospitalRepository {
     }
 
     @Override
-    public Hospital update(Long oldHospitalId, Long loginId,
-        HospitalRequestDto hospitalUpdateRequestDto) {
+    public Hospital update(Long oldHospitalId, Long loginId, HospitalRequestDto hospitalUpdateRequestDto) {
         HospitalEntity oldHospitalEntity = hospitalJpaRepository.findById(oldHospitalId)
             .orElseThrow(() -> new GlobalException(
                 ErrorCode.HOSPITAL_NOT_FOUND,

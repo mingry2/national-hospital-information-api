@@ -44,7 +44,7 @@ public class SecurityConfig {
         http.httpBasic(AbstractHttpConfigurer::disable);
         // 경로별 인가
         http.authorizeHttpRequests((auth) -> auth
-            .requestMatchers("/", "/api/v1/user/login", "/api/v1/user/join").permitAll()
+            .requestMatchers("/", "/api/v1/user/login", "/api/v1/user/join", "api/v1/user/check-username/").permitAll()
             .requestMatchers("/api/v1/data-upload").hasRole("ADMIN")
             .anyRequest().authenticated());
 
