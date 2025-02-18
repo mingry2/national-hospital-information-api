@@ -4,6 +4,11 @@ spring:
     url: ${MYSQL_URL}
     username: ${MYSQL_USER}
     password: ${MYSQL_PASSWORD}
+  flyway:
+    enabled: false
+  jpa:
+    hibernate:
+      ddl-auto: create
 
 jwt:
   token:
