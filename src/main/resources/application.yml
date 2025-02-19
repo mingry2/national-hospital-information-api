@@ -28,3 +28,8 @@ logging:
   level:
     root: info
     com.mk: debug
+
+springdoc:
+  swagger-ui:
+    operations-sorter: alpha
+    tags-sorter: alpha

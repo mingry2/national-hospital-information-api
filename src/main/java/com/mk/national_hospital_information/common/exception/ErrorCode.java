@@ -27,6 +27,8 @@ public enum ErrorCode {
     DUPLICATED_LIKE(HttpStatus.CONFLICT, "DUPLICATED LIKE"),
     LIKE_NOT_FOUND(HttpStatus.NOT_FOUND, "Like NOT FOUND"),
 
+    ROLE_NOT_FOUND(HttpStatus.NOT_FOUND, "ROLE NOT FOUND"),
+
     ;
 
     private final HttpStatus status;

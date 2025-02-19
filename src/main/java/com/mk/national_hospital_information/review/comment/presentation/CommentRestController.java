@@ -7,6 +7,8 @@ import com.mk.national_hospital_information.review.comment.presentation.dto.Comm
 import com.mk.national_hospital_information.review.comment.presentation.dto.CommentRequestDto;
 import com.mk.national_hospital_information.review.comment.presentation.dto.CommentResponseDto;
 import com.mk.national_hospital_information.user.application.interfaces.UserService;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -25,12 +27,14 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/api/v1/review")
+@Tag(name = "📑 5. Comment Controller", description = "리뷰의 댓글 등록, 수정, 삭제, 조회(단건), 조회(전체)")
 public class CommentRestController {
 
     private final CommentService commentService;
     private final UserService userService;
 
     @PostMapping("/{reviewId}/comment")
+    @Operation(summary = "✔ 댓글 등록", description = "📢 content로 리뷰에 댓글을 등록합니다.")
     public ResponseEntity<Response<CommentResponseDto>> addComment(@PathVariable Long reviewId, @RequestBody CommentRequestDto commentAddRequestDto) {
         Long loginId = getUserId();
 
@@ -45,6 +49,7 @@ public class CommentRestController {
     }
 
     @PutMapping("/{reviewId}/comment/{commentId}")
+    @Operation(summary = "✔ 댓글 수정", description = "📢 content로 리뷰에 댓글을 수정합니다.")
     public ResponseEntity<Response<CommentResponseDto>> updateComment(@PathVariable Long reviewId, @PathVariable Long commentId, @RequestBody CommentRequestDto commentUpdateRequestDto) {
         Long loginId = getUserId();
 
@@ -60,6 +65,7 @@ public class CommentRestController {
     }
 
     @PatchMapping("/{reviewId}/comment/{commentId}")
+    @Operation(summary = "✔ 댓글 삭제", description = "📢 댓글을 삭제합니다.(단, 데이터는 완전 삭제되지 않으며, deleted_at을 통해 관리됩니다.(soft delete)")
     public ResponseEntity<String> deleteComment(@PathVariable Long reviewId, @PathVariable Long commentId) {
         Long loginId = getUserId();
 
@@ -71,6 +77,7 @@ public class CommentRestController {
     }
 
     @GetMapping("/{reviewId}/comment/{commentId}")
+    @Operation(summary = "✔ 댓글 조회(단건)", description = "📢 단건 댓글을 조회합니다.(내용, 댓글 Id, 리뷰 Id, 작성자(회원) Id 표시)")
     public ResponseEntity<Response<CommentFindResponseDto>> getComment(@PathVariable Long reviewId, @PathVariable Long commentId) {
         Comment findComment = commentService.findComment(reviewId, commentId);
 
@@ -84,6 +91,7 @@ public class CommentRestController {
     }
 
     @GetMapping("/comments")
+    @Operation(summary = "✔ 댓글 조회(전체)", description = "📢 전체 댓글을 조회합니다.(내용, 댓글 Id, 리뷰 Id, 작성자(회원) Id 표시 - 1페이지 당 20건)")
     public Page<Comment> findAllComment(Pageable pageable) {
 
         return commentService.findAll(pageable);

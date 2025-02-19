@@ -14,6 +14,8 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import org.hibernate.annotations.SQLRestriction;
+import org.springframework.context.support.BeanDefinitionDsl;
+import org.springframework.context.support.BeanDefinitionDsl.Role;
 
 @Entity
 @NoArgsConstructor
@@ -42,6 +44,12 @@ public class UserEntity extends UserBaseEntity {
         this.role = user.getRole();
     }
 
+    public UserEntity(String username, String password, UserRole role) {
+        this.username = username;
+        this.password = password;
+        this.role = role;
+    }
+
     // Entity -> Domain
     public User toUser() {
         return new User(
@@ -49,5 +57,9 @@ public class UserEntity extends UserBaseEntity {
             this.username,
             this.password,
             this.role);
+    }
+
+    public void updateRole(UserRole oldRole) {
+        this.role = oldRole;
     }
 }

@@ -38,18 +38,20 @@ public class SecurityConfig {
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
 
         // csrf disable -> 세션 방법에서는 csrf 공격을 필수적으로 방어해줘야함
-        http.csrf(AbstractHttpConfigurer::disable);
-        // jwt -> Form 로그인 방식, http basic 인증 방식 disable
-        http.formLogin(AbstractHttpConfigurer::disable);
-        http.httpBasic(AbstractHttpConfigurer::disable);
-        // 경로별 인가
-        http.authorizeHttpRequests((auth) -> auth
-            .requestMatchers("/", "/api/v1/user/login", "/api/v1/user/join", "api/v1/user/check-username/").permitAll()
-            .requestMatchers("/api/v1/data-upload").hasRole("ADMIN")
+        http
+            .csrf(AbstractHttpConfigurer::disable)
+            // jwt -> Form 로그인 방식, http basic 인증 방식 disable
+            .formLogin(AbstractHttpConfigurer::disable)
+            .httpBasic(AbstractHttpConfigurer::disable)
+            // 경로별 인가
+            .authorizeHttpRequests((auth) -> auth
+                .requestMatchers(
+                "/","/api/v1/user/login","/api/v1/user/join","/api/v1/user/check-username/**","/swagger-ui/**","/v3/api-docs/**").permitAll()
+                .requestMatchers("/api/v1/data-upload").hasRole("ADMIN")
             .anyRequest().authenticated());
 
-        http.addFilterBefore(new JwtFilter(jwtUtil), LoginFilter.class);
         // UsernamePasswordAuthenticationFiler -> jwt 커스텀
+        http.addFilterBefore(new JwtFilter(jwtUtil), LoginFilter.class);
         LoginFilter loginFilter = new LoginFilter(authenticationManager(authenticationConfiguration), jwtUtil);
         loginFilter.setFilterProcessesUrl("/api/v1/user/login");
         http.addFilterAt(loginFilter, UsernamePasswordAuthenticationFilter.class);
