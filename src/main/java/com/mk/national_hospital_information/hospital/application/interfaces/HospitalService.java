@@ -12,5 +12,4 @@ public interface HospitalService {
     String delete(Long hospitalId, Long loginId);
     Hospital findByHospitalId(Long hospitalId);
     Page<Hospital> findAll(Pageable pageable);
-
 }

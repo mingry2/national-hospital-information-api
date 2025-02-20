@@ -10,6 +10,7 @@ import com.mk.national_hospital_information.user.application.interfaces.UserServ
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
@@ -28,6 +29,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("/api/v1")
 @RequiredArgsConstructor
 @Tag(name = "📑 2. Hospital Controller", description = "병원 등록, 수정, 삭제, 조회(단건), 조회(전체)")
+@Slf4j
 public class HospitalRestController {
 
     private final HospitalService hospitalService;
@@ -97,6 +99,7 @@ public class HospitalRestController {
     }
 
     private Long getUserId() {
+
         return userService.findByUsername(
             SecurityContextHolder.getContext().getAuthentication().getName()).getId();
     }

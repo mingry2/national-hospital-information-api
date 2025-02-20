@@ -7,5 +7,4 @@ import org.springframework.data.jpa.repository.JpaRepository;
 
 public interface HospitalJpaRepository extends JpaRepository<HospitalEntity, Long> {
     Page<HospitalEntity> findAll(Pageable pageable);
-
 }

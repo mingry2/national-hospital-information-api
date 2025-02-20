@@ -55,4 +55,5 @@ public class HospitalServiceImpl implements HospitalService {
 
         return hospitalRepository.findById(hospitalId);
     }
+
 }

@@ -33,3 +33,4 @@ springdoc:
   swagger-ui:
     operations-sorter: alpha
     tags-sorter: alpha
+  default-flat-param-object: true
