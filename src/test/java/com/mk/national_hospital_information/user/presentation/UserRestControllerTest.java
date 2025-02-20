@@ -9,7 +9,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.mk.national_hospital_information.user.application.interfaces.UserService;
 import com.mk.national_hospital_information.user.domain.User;
-import com.mk.national_hospital_information.user.presentation.dto.UserJoinRequestDto;
+import com.mk.national_hospital_information.user.presentation.dto.UserRequestDto;
 import com.mk.national_hospital_information.user.presentation.dto.UserJoinResponseDto;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -38,9 +38,9 @@ class UserRestControllerTest {
     @Test
     @DisplayName("회원가입 테스트")
     void joinTest() throws Exception {
-        UserJoinRequestDto requestDto = new UserJoinRequestDto("testUser", "password");
+        UserRequestDto requestDto = new UserRequestDto("testUser", "password");
         User user = new User(1L, "testUser");
-        Mockito.when(userService.join(any(UserJoinRequestDto.class))).thenReturn(user);
+        Mockito.when(userService.join(any(UserRequestDto.class))).thenReturn(user);
 
         UserJoinResponseDto responseDto = new UserJoinResponseDto(user.getId(), user.getUsername());
 

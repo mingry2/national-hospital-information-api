@@ -12,7 +12,7 @@ import com.mk.national_hospital_information.common.exception.ErrorCode;
 import com.mk.national_hospital_information.common.exception.GlobalException;
 import com.mk.national_hospital_information.user.application.interfaces.UserRepository;
 import com.mk.national_hospital_information.user.domain.User;
-import com.mk.national_hospital_information.user.presentation.dto.UserJoinRequestDto;
+import com.mk.national_hospital_information.user.presentation.dto.UserRequestDto;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -35,13 +35,13 @@ class UserServiceImplTest {
     private UserServiceImpl userService;
 
     private User user;
-    private UserJoinRequestDto dto;
+    private UserRequestDto dto;
 
 
     @BeforeEach
     void init() {
         user = new User(1L, "testUser", "password");
-        dto = new UserJoinRequestDto("testUser", "password");
+        dto = new UserRequestDto("testUser", "password");
     }
 
     @Test
