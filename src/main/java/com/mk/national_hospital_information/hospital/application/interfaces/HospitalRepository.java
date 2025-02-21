@@ -14,4 +14,5 @@ public interface HospitalRepository {
     Hospital findById(Long hospitalId);
     List<Hospital> findAll(Pageable pageable);
     void saveAll(List<HospitalEntity> hospitalEntities);
+    List<Hospital> searchByHospitalName(String hospitalName, Pageable pageable);
 }

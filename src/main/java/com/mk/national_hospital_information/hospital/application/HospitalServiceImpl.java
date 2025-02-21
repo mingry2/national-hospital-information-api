@@ -51,6 +51,13 @@ public class HospitalServiceImpl implements HospitalService {
     }
 
     @Override
+    public Page<Hospital> searchHospitals(String hospitalName, Pageable pageable) {
+        List<Hospital> hospitals = hospitalRepository.searchByHospitalName(hospitalName, pageable);
+
+        return new PageImpl<>(hospitals, pageable, hospitals.size());
+    }
+
+    @Override
     public Hospital findByHospitalId(Long hospitalId) {
 
         return hospitalRepository.findById(hospitalId);

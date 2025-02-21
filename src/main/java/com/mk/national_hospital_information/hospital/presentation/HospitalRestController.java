@@ -23,12 +23,13 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequestMapping("/api/v1")
 @RequiredArgsConstructor
-@Tag(name = "📑 2. Hospital Controller", description = "병원 등록, 수정, 삭제, 조회(단건), 조회(전체)")
+@Tag(name = "📑 2. Hospital Controller", description = "병원 등록, 수정, 삭제, 조회(단건), 조회(전체), 병원 검색")
 @Slf4j
 public class HospitalRestController {
 
@@ -96,6 +97,13 @@ public class HospitalRestController {
     public Page<Hospital> findAllHospitals(Pageable pageable) {
 
         return hospitalService.findAll(pageable);
+    }
+
+    @GetMapping("/hospital/search")
+    @Operation(summary = "✔ 병원명으로 검색", description = "📢 병원명으로 병원 정보를 검색합니다.")
+    public Page<Hospital> searchHospitals(@RequestParam String hospitalName, Pageable pageable) {
+
+        return hospitalService.searchHospitals(hospitalName, pageable);
     }
 
     private Long getUserId() {

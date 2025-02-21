@@ -8,6 +8,8 @@ import com.mk.national_hospital_information.hospital.domain.Hospital;
 import com.mk.national_hospital_information.hospital.infrastructure.entity.HospitalEntity;
 import com.mk.national_hospital_information.hospital.infrastructure.jpa.HospitalJpaRepository;
 import com.mk.national_hospital_information.hospital.presentation.dto.HospitalRequestDto;
+import com.querydsl.jpa.impl.JPAQueryFactory;
+import jakarta.persistence.EntityManager;
 import java.util.List;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
@@ -28,6 +30,12 @@ class HospitalRepositoryImplTest {
     @Autowired
     private HospitalJpaRepository hospitalJpaRepository;
 
+    @Autowired
+    private JPAQueryFactory queryFactory;
+
+    @Autowired
+    private EntityManager entityManager;
+
     private HospitalRepository hospitalRepository;
     private Hospital hospitalA;
     private Hospital hospitalB;
@@ -36,7 +44,7 @@ class HospitalRepositoryImplTest {
 
     @BeforeEach
     void init() {
-        hospitalRepository = new HospitalRepositoryImpl(hospitalJpaRepository);
+        hospitalRepository = new HospitalRepositoryImpl(hospitalJpaRepository, entityManager, queryFactory);
         HospitalRequestDto dto = new HospitalRequestDto("testHospitalName", "testAddress", "testTel", "testWebsite");
         hospitalA = new Hospital(1L, dto);
         hospitalB = new Hospital(2L, dto);
