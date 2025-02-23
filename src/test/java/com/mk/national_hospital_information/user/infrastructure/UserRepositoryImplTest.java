@@ -2,93 +2,91 @@ package com.mk.national_hospital_information.user.infrastructure;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
-import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.Mockito.when;
 
 import com.mk.national_hospital_information.common.exception.ErrorCode;
 import com.mk.national_hospital_information.common.exception.GlobalException;
+import com.mk.national_hospital_information.config.AbstractMySqlTestContainers;
+import com.mk.national_hospital_information.user.application.interfaces.UserRepository;
 import com.mk.national_hospital_information.user.domain.User;
-import com.mk.national_hospital_information.user.infrastructure.entity.UserEntity;
-import com.mk.national_hospital_information.user.infrastructure.jpa.UserJpaRepository;
-import java.util.Optional;
+import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.extension.ExtendWith;
-import org.mockito.InjectMocks;
-import org.mockito.Mock;
-import org.mockito.junit.jupiter.MockitoExtension;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.jdbc.core.JdbcTemplate;
 
-@ExtendWith(MockitoExtension.class)
-class UserRepositoryImplTest {
+class UserRepositoryImplTest extends AbstractMySqlTestContainers {
 
-    @Mock
-    private UserJpaRepository userJpaRepository;
+    @Autowired
+    private UserRepository userRepository;
 
-    @InjectMocks
-    private UserRepositoryImpl userRepository;
+    @Autowired
+    private JdbcTemplate jdbcTemplate;
 
     private User user;
-    private UserEntity userEntity;
 
     @BeforeEach
     void init() {
         user = new User(1L, "testUser", "password");
-        userEntity = new UserEntity(1L, user.getUsername(), user.getPassword(), user.getRole());
+    }
+
+    @AfterEach
+    void clear() {
+        jdbcTemplate.execute("TRUNCATE TABLE user");
     }
 
     @Test
-    @DisplayName("user 저장 성공")
+    @DisplayName("유저 저장 성공")
     void save() {
-        when(userJpaRepository.save(any(UserEntity.class))).thenReturn(userEntity);
+        User savedUser = userRepository.save(user);
 
-        User result = userRepository.save(user);
-
-        assertThat(result.getUsername()).isEqualTo(user.getUsername());
-        assertThat(result.getPassword()).isEqualTo(user.getPassword());
-        assertThat(result.getRole()).isEqualTo(user.getRole());
+        assertThat(savedUser.getUsername()).isEqualTo(user.getUsername());
+        assertThat(savedUser.getPassword()).isEqualTo(user.getPassword());
+        assertThat(savedUser.getRole()).isEqualTo(user.getRole());
     }
 
     @Test
-    @DisplayName("userId로 user 찾기 성공")
+    @DisplayName("userId로 유저 조회 성공")
     void findById_success() {
-        when(userJpaRepository.findById(user.getId())).thenReturn(Optional.of(userEntity));
+        User savedUser = userRepository.save(user);
+        User findUser = userRepository.findById(savedUser.getId());
 
-        User result = userRepository.findById(user.getId());
-
-        assertThat(result.getUsername()).isEqualTo(user.getUsername());
-        assertThat(result.getPassword()).isEqualTo(user.getPassword());
-        assertThat(result.getRole()).isEqualTo(user.getRole());
+        assertThat(findUser.getId()).isEqualTo(savedUser.getId());
+        assertThat(findUser.getUsername()).isEqualTo(user.getUsername());
+        assertThat(findUser.getPassword()).isEqualTo(user.getPassword());
+        assertThat(findUser.getRole()).isEqualTo(user.getRole());
     }
 
     @Test
-    @DisplayName("userId로 user 찾기 실패")
+    @DisplayName("userId로 유저 조회 실패 - 유저 없음(savedUserId != otherUserId")
     void findById_failure() {
-        when(userJpaRepository.findById(user.getId())).thenReturn(Optional.empty());
+        Long otherUserId = 2L;
+        userRepository.save(user); // savedUserid = 1L
 
-        assertThatThrownBy(() -> userRepository.findById(user.getId()))
+        assertThatThrownBy(() -> userRepository.findById(otherUserId))
             .isInstanceOf(GlobalException.class)
             .hasMessage(ErrorCode.ID_NOT_FOUND.getMessage());
     }
 
     @Test
-    @DisplayName("username으로 user 찾기 성공")
+    @DisplayName("username으로 유저 조회 성공")
     void findByUsername_success() {
-        when(userJpaRepository.findByUsername(user.getUsername())).thenReturn(Optional.of(userEntity));
+        User savedUser = userRepository.save(user);
+        User findUser = userRepository.findByUsername(savedUser.getUsername());
 
-        User result = userRepository.findByUsername(user.getUsername());
-
-        assertThat(result.getUsername()).isEqualTo(user.getUsername());
-        assertThat(result.getPassword()).isEqualTo(user.getPassword());
-        assertThat(result.getRole()).isEqualTo(user.getRole());
+        assertThat(findUser.getId()).isEqualTo(savedUser.getId());
+        assertThat(findUser.getUsername()).isEqualTo(user.getUsername());
+        assertThat(findUser.getPassword()).isEqualTo(user.getPassword());
+        assertThat(findUser.getRole()).isEqualTo(user.getRole());
     }
 
     @Test
-    @DisplayName("username으로 user 찾기 실패")
+    @DisplayName("username으로 유저 조회 실패 - 유저 없음(savedUsername != otherUsername")
     void findByUsername_failure() {
-        when(userJpaRepository.findByUsername(user.getUsername())).thenReturn(Optional.empty());
+        String otherUsername = "otherUsername";
+        userRepository.save(user); // savedUsername = "testUser"
 
-        assertThatThrownBy(() -> userRepository.findByUsername(user.getUsername()))
+        assertThatThrownBy(() -> userRepository.findByUsername(otherUsername))
             .isInstanceOf(GlobalException.class)
             .hasMessage(ErrorCode.USERNAME_NOT_FOUND.getMessage());
     }
