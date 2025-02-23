@@ -8,7 +8,6 @@ import com.mk.national_hospital_information.user.domain.UserRole;
 import com.mk.national_hospital_information.user.infrastructure.entity.UserEntity;
 import com.mk.national_hospital_information.user.infrastructure.jpa.UserJpaRepository;
 import lombok.RequiredArgsConstructor;
-import org.springframework.context.support.BeanDefinitionDsl.Role;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 

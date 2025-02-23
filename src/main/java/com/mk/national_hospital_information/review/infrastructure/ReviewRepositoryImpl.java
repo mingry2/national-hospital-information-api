@@ -103,4 +103,9 @@ public class ReviewRepositoryImpl implements ReviewRepository {
         return reviews;
     }
 
+    @Override
+    public void clear() {
+        reviewJpaRepository.deleteAll();
+    }
+
 }

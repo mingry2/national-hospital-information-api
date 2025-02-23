@@ -4,17 +4,15 @@ spring:
     url: ${MYSQL_URL}
     username: ${MYSQL_USER}
     password: ${MYSQL_PASSWORD}
-
   jpa:
-    show-sql: true
+#    show-sql: true
     hibernate:
       ddl-auto: validate
-    properties:
-      hibernate:
-        format_sql: true
-        use_sql_comments: true
+#    properties:
+#      hibernate:
+#        format_sql: true
+#        use_sql_comments: true
     open-in-view: false
-
   # flyway 설정
   flyway:
     enabled: true

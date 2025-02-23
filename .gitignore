@@ -37,3 +37,4 @@ out/
 .vscode/
 /src/main/resources/db/
 /src/main/java/com/mk/national_hospital_information/common/config/InitData.java
+/.env

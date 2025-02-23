@@ -15,4 +15,5 @@ public interface HospitalRepository {
     List<Hospital> findAll(Pageable pageable);
     void saveAll(List<HospitalEntity> hospitalEntities);
     List<Hospital> searchByHospitalName(String hospitalName, Pageable pageable);
+    void clear();
 }

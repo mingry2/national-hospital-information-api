@@ -10,7 +10,6 @@ import com.mk.national_hospital_information.hospital.infrastructure.jpa.Hospital
 import com.mk.national_hospital_information.hospital.presentation.dto.HospitalRequestDto;
 import com.querydsl.core.BooleanBuilder;
 import com.querydsl.jpa.impl.JPAQueryFactory;
-import jakarta.persistence.EntityManager;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
@@ -26,7 +25,6 @@ import org.springframework.transaction.annotation.Transactional;
 public class HospitalRepositoryImpl implements HospitalRepository {
 
     private final HospitalJpaRepository hospitalJpaRepository;
-    private final EntityManager entityManager;
     private final JPAQueryFactory queryFactory;
 
     @Override
@@ -131,5 +129,10 @@ public class HospitalRepositoryImpl implements HospitalRepository {
         List<Hospital> hospitals = hospitalEntities.stream().map(HospitalEntity::toHospital).toList();
 
         return hospitals;
+    }
+
+    @Override
+    public void clear() {
+        hospitalJpaRepository.deleteAll();
     }
 }

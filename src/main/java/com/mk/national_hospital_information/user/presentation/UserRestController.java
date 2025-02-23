@@ -31,8 +31,8 @@ public class UserRestController {
 
     @PostMapping("/join")
     @Operation(summary = "✔ 유저 등록", description = "📢 username, password 정보를 이용하여 사용자를 등록합니다.")
-    public ResponseEntity<Response<UserJoinResponseDto>> join(@RequestBody UserRequestDto userJoinDdto) {
-        User joinedUser = userService.join(userJoinDdto);
+    public ResponseEntity<Response<UserJoinResponseDto>> join(@RequestBody UserRequestDto userJoinDto) {
+        User joinedUser = userService.join(userJoinDto);
         UserJoinResponseDto userJoinResponseDto = new UserJoinResponseDto(joinedUser.getId(), joinedUser.getUsername());
 
         return ResponseEntity

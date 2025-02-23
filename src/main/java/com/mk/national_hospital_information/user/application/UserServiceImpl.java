@@ -21,7 +21,6 @@ public class UserServiceImpl implements UserService {
 
     private final UserRepository userRepository;
     private final BCryptPasswordEncoder bCryptPasswordEncoder;
-    private final UserJpaRepository userJpaRepository;
 
     @Override
     public User join(UserRequestDto dto) {
