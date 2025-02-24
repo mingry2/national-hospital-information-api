@@ -18,7 +18,7 @@ services:
 
   web:
     image: minry20415/national_hospital_information:latest
-    container_name: app_container
+    container_name: national_hospital_information
     environment:
       SPRING_DATASOURCE_URL: ${MYSQL_URL}
       SPRING_DATASOURCE_USERNAME: ${MYSQL_USER}
