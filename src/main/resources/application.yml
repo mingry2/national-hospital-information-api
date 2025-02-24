@@ -8,15 +8,12 @@ spring:
 #    show-sql: true
     hibernate:
       ddl-auto: validate
+    database-platform: org.hibernate.dialect.MySQL8Dialect
 #    properties:
 #      hibernate:
 #        format_sql: true
 #        use_sql_comments: true
     open-in-view: false
-  # flyway 설정
-  flyway:
-    enabled: true
-    baseline-on-migrate: true
 
 jwt:
   token:
