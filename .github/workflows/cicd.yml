@@ -60,8 +60,5 @@ jobs:
             docker rm national_hospital_information || true
             
             docker pull ${{ secrets.DOCKER_USERNAME }}/national_hospital_information:latest
-            
-            scp -i ${{ secrets.EC2_PRIVATE_KEY }} docker-compose.yml ${{ secrets.EC2_USER }}@${{ secrets.EC2_HOST }}:/home/ubuntu/docker-compose/
-            
-            cd /home/ubuntu/docker-compose/
-            docker-compose up -d
+          
+            docker-compose -f /home/ubuntu/docker-compose/docker-compose.yml up -d
