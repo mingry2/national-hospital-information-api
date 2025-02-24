@@ -51,7 +51,14 @@ jobs:
           username: ${{ secrets.EC2_USER }}
           key: ${{ secrets.EC2_PRIVATE_KEY }}
           script: |
+            export MYSQL_URL=${{ secrets.MYSQL_URL }}
+            export MYSQL_USER=${{ secrets.MYSQL_USER }}
+            export MYSQL_PASSWORD=${{ secrets.MYSQL_PASSWORD }}
+            export JWT_SECRET_KEY=${{ secrets.JWT_SECRET_KEY }}
+            
             docker stop national_hospital_information || true
             docker rm national_hospital_information || true
+            
             docker pull ${{ secrets.DOCKER_USERNAME }}/national_hospital_information:latest
-            docker run -d -p 8080:8080 --name national_hospital_information -e MYSQL_URL=${{ secrets.MYSQL_URL}} -e MYSQL_USER=${{ secrets.MYSQL_USER }} -e MYSQL_PASSWORD=${{ secrets.MYSQL_PASSWORD }} ${{ secrets.DOCKER_USERNAME }}/national_hospital_information:latest
+            
+            docker-compose -f /path/to/docker-compose.yml up -d
