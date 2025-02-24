@@ -61,4 +61,7 @@ jobs:
             
             docker pull ${{ secrets.DOCKER_USERNAME }}/national_hospital_information:latest
             
-            docker-compose -f /path/to/docker-compose.yml up -d
+            scp -i ${{ secrets.EC2_PRIVATE_KEY }} docker-compose.yml ${{ secrets.EC2_USER }}@${{ secrets.EC2_HOST }}:/home/ubuntu/docker-compose/
+            
+            cd /home/ubuntu/docker-compose/
+            docker-compose up -d
