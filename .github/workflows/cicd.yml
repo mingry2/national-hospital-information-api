@@ -23,7 +23,9 @@ jobs:
         run: chmod +x gradlew
 
       - name: Build with Gradle
-        run: ./gradlew clean build
+        run: |
+          export SECRET_KEY=${{ secrets.SECRET_KEY }}
+          ./gradlew clean build
 
       - name: Build Docker Image
         run: docker build -t national_hospital_information:latest .
