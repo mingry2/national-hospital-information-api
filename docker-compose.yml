@@ -29,5 +29,8 @@ services:
     depends_on:
       - db-mysql
 
+networks:
+  my_network:
+
 volumes:
   db_data:
