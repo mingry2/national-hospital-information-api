@@ -63,7 +63,7 @@ jobs:
             
             docker pull ${{ secrets.DOCKER_USERNAME }}/national_hospital_information:latest
             
-            docker-compose -f /home/ubuntu/docker-compose/docker-compose.yml up -d
+            docker-compose -f /home/ubuntu/docker/docker-compose.yml up -d
 
       - name: Check if container is running
         run: |
