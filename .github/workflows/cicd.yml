@@ -10,7 +10,7 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Checkout Repository
+      - name: Checkout repository
         uses: actions/checkout@v4
 
       - name: Set up JDK 21
@@ -54,11 +54,19 @@ jobs:
             export MYSQL_URL=${{ secrets.MYSQL_URL }}
             export MYSQL_USER=${{ secrets.MYSQL_USER }}
             export MYSQL_PASSWORD=${{ secrets.MYSQL_PASSWORD }}
-            export SECRET_KEY=${{ secrets.JWT_SECRET_KEY }}
+            export MYSQL_DB=${{ secrets.MYSQL_DB }}
             
-            docker stop national_hospital_information || true
-            docker rm national_hospital_information || true
+            docker stop national_hospital_information_container || true
+            docker rm national_hospital_information_container || true
             
             docker pull ${{ secrets.DOCKER_USERNAME }}/national_hospital_information:latest
-          
+            
             docker-compose -f /home/ubuntu/docker-compose/docker-compose.yml up -d
+
+      - name: Check if container is running
+        run: |
+          docker ps -q -f name=national_hospital_information_container
+          if [ $? -ne 0 ]; then
+            echo "Container is not running"
+            exit 1
+          fi

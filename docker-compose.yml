@@ -1,39 +1,33 @@
 version: '3.8'
 
 services:
-  mysql:
-    image: mysql:latest
+  db-mysql:
+    image: mysql:8.0
     container_name: mysql_container
     environment:
       MYSQL_ROOT_PASSWORD: ${MYSQL_PASSWORD}
-      MYSQL_DATABASE: national_hospital_information_db
+      MYSQL_DATABASE: ${MYSQL_DB}
       MYSQL_USER: ${MYSQL_USER}
-      MYSQL_PASSWORD: ${MYSQL_PASSWORD}
     networks:
       - my_network
     ports:
       - "3306:3306"
     volumes:
-      - mysql_data:/var/lib/mysql
+      - db_data:/var/lib/mysql
 
   web:
-    image: minry20415/national_hospital_information:latest
-    container_name: national_hospital_information
+    image: ${DOCKER_USERNAME}/national_hospital_information:latest
+    container_name: national_hospital_information_container
     environment:
-      SPRING_DATASOURCE_URL: ${MYSQL_URL}
-      SPRING_DATASOURCE_USERNAME: ${MYSQL_USER}
-      SPRING_DATASOURCE_PASSWORD: ${MYSQL_PASSWORD}
-      JWT_SECRET: ${SECRET_KEY}
+      MYSQL_URL: ${MYSQL_URL}
+      MYSQL_USER: ${MYSQL_USER}
+      MYSQL_PASSWORD: ${MYSQL_PASSWORD}
     networks:
       - my_network
     ports:
       - "8080:8080"
     depends_on:
-      - mysql
-
-networks:
-  my_network:
-    driver: bridge
+      - db-mysql
 
 volumes:
-  mysql_data:
+  db_data:
