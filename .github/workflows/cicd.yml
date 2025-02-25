@@ -55,6 +55,7 @@ jobs:
             export MYSQL_USER=${{ secrets.MYSQL_USER }}
             export MYSQL_PASSWORD=${{ secrets.MYSQL_PASSWORD }}
             export MYSQL_DB=${{ secrets.MYSQL_DB }}
+            export DOCKER_USERNAME=${{ secrets.DOCKER_USERNAME }}
             
             docker stop national_hospital_information_container || true
             docker rm national_hospital_information_container || true
