@@ -38,10 +38,9 @@ public class ExcelService {
 
         try (FileInputStream fis = new FileInputStream(filePath);
             BufferedInputStream bis = new BufferedInputStream(fis);
-            XSSFWorkbook xssfWorkbook = new XSSFWorkbook(bis);
-            SXSSFWorkbook sxssfWorkbook = new SXSSFWorkbook(xssfWorkbook, 1000)) { // Streaming 방식으로 변경(메모리 사용량 줄이기)
+            XSSFWorkbook xssfWorkbook = new XSSFWorkbook(bis);) { // Streaming 방식으로 변경(메모리 사용량 줄이기)
 
-            Sheet sheet = sxssfWorkbook.getSheetAt(0); // 첫번째 시트 읽기
+            Sheet sheet = xssfWorkbook.getSheetAt(0); // 첫번째 시트 읽기
 
             for (Row row : sheet) {
                 if (row.getRowNum() == 0)
