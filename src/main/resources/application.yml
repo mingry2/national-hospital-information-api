@@ -14,6 +14,12 @@ spring:
 #        format_sql: true
 #        use_sql_comments: true
     open-in-view: false
+    # 대량 데이터 DB INSERT 최적화 설정
+    properties:
+      jdbc:
+        batch_size: 1000 # 1000개씩 Batch Insert 실행
+      order_inserts: true # Insert 성능 최적화
+      order_updates: true # Update 성능 최적화
 
 jwt:
   token:
