@@ -22,6 +22,7 @@ services:
       MYSQL_USER: ${MYSQL_USER}
       MYSQL_PASSWORD: ${MYSQL_PASSWORD}
       SECRET_KEY: ${SECRET_KEY}
+      JAVA_OPTS: "-Xms512m -Xmx2048m"
     networks:
       - my_network
     ports:
